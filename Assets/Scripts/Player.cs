@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private int direction = 1;
     [Space]
     [Header("Jump")]
-    public float jumpForce = 70;
+    public float jumpForce = 85;
     public bool grounded;
     public Transform groundedCheck;
     public float groundedCheckRadius = 0.2f;
@@ -75,21 +75,23 @@ public class Player : MonoBehaviour
                 aud.clip = jumpSound;
                 aud.Play();
                 rig.AddForce(Vector2.up * jumpForce); 
-            }
+            }           
+        }
+    }
 
-            if(Input.GetKeyDown(KeyCode.E)){
-                aud.clip = shootingSound;
-                aud.Play();
-                anim.SetTrigger("shooting");
-                GameObject worm;
-                if(direction == 1){
-                    worm = Instantiate(wormPrefab, shootingPositionRight.position, Quaternion.identity);
-                }else{
-                    worm = Instantiate(wormPrefab, shootingPositionLeft.position, Quaternion.identity);
-                    worm.GetComponent<SpriteRenderer>().flipX = false;
-                }
-                worm.GetComponent<Rigidbody2D>().velocity = new Vector2(wormSpeed * direction, 0);
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.E)){
+            aud.clip = shootingSound;
+            aud.Play();
+            anim.SetTrigger("shooting");
+            GameObject worm;
+            if(direction == 1){
+                worm = Instantiate(wormPrefab, shootingPositionRight.position, Quaternion.identity);
+            }else{
+                worm = Instantiate(wormPrefab, shootingPositionLeft.position, Quaternion.identity);
+                worm.GetComponent<SpriteRenderer>().flipX = false;
             }
+            worm.GetComponent<Rigidbody2D>().velocity = new Vector2(wormSpeed * direction, 0);
         }
     }
 
@@ -130,7 +132,9 @@ public class Player : MonoBehaviour
     }
 
     public void TakeLife(){
-        playerHP += 1;
+        if(playerHP < 3){
+            playerHP += 1;
+        }
         aud.clip = lifeSound;
         aud.Play();
     }
