@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     [Header("Coins")]
     public int qtdCoins = 0;
     public AudioClip coinSound;
+    public Text textCoins;
 
     //REFERENCES
     private Rigidbody2D rig;
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         aud = GetComponent<AudioSource>();       
         hpBar.maxValue = playerHP;
+        textCoins.text = "0";
     }
 
     void FixedUpdate()
@@ -129,6 +131,7 @@ public class Player : MonoBehaviour
         aud.clip = coinSound;
         aud.Play();
         qtdCoins += 1;
+        textCoins.text = qtdCoins.ToString();
     }
 
     public void TakeLife(){
